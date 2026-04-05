@@ -102,7 +102,7 @@ export default function ProgramPage() {
                 <div key={program.id} className={`rounded-[3.5rem] border-2 p-10 md:p-14 ${program.color} transition-all hover:shadow-2xl`}>
                   <div className="mb-10 flex items-center justify-between">
                     <div className={`flex h-20 w-20 items-center justify-center rounded-[2rem] text-white shadow-xl p-4 ${program.accent}`}>
-                      {React.cloneElement(program.icon as React.ReactElement, { className: "h-full w-full" })}
+                      {React.cloneElement(program.icon as React.ReactElement<{ className?: string }>, { className: "h-full w-full" })}
                     </div>
                     <span className="rounded-full bg-white/50 px-4 py-1 text-xs font-black uppercase tracking-widest text-zinc-500">Program Inti</span>
                   </div>
