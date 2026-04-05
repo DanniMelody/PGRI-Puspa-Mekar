@@ -182,6 +182,47 @@ export default function ProfilPage() {
             </div>
           </div>
         </section>
+
+        {/* Legalitas & Akreditasi */}
+        <section id="legalitas" className="px-6 py-20 md:px-12 lg:px-24 bg-white border-t border-zinc-100">
+          <div className="mx-auto max-w-5xl">
+            <div className="grid gap-12 md:grid-cols-2 items-center">
+              <div className="relative aspect-video rounded-[2.5rem] bg-lime-100 flex items-center justify-center overflow-hidden shadow-inner">
+                 <Icons.Award className="h-24 w-24 text-lime-600 opacity-20 absolute -right-4 -bottom-4 rotate-12" />
+                 <div className="text-center relative z-10">
+                    <div className="mb-2 text-5xl font-black text-lime-700">Terakreditasi</div>
+                    <div className="text-8xl font-black text-lime-600">B</div>
+                 </div>
+              </div>
+
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-3xl font-black text-zinc-900 mb-2">Legalitas Sekolah</h2>
+                  <p className="font-bold text-zinc-500">Resmi terdaftar dan diakui oleh Kementerian Pendidikan.</p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  {[
+                    { label: "NPSN", value: "20259826", icon: <Icons.Check className="h-4 w-4 text-lime-600" /> },
+                    { label: "Status Akreditasi", value: "B (Baik)", icon: <Icons.Award className="h-4 w-4 text-lime-600" /> },
+                    { label: "Izin Operasional", value: "421.1/2056/Disdik/2010", icon: <Icons.FileText className="h-4 w-4 text-lime-600" /> },
+                    { label: "Penyelenggara", value: "Yayasan Pembina Lembaga Pendidikan (YPLP) PGRI", icon: <Icons.School className="h-4 w-4 text-lime-600" /> },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-4 p-5 rounded-2xl bg-zinc-50 border border-zinc-100 transition-colors hover:bg-white hover:shadow-md">
+                      <div className="h-10 w-10 shrink-0 rounded-xl bg-white shadow-sm flex items-center justify-center border border-zinc-100">
+                        {item.icon}
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{item.label}</p>
+                        <p className="text-base font-black text-zinc-900">{item.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
