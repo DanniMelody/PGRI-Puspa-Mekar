@@ -55,37 +55,37 @@ export default function ProfilPage() {
       <main className="flex-1">
         
         {/* Hero Section */}
-        <section className="relative bg-lime-50 px-6 py-12 text-center md:px-12 lg:px-24 lg:py-16">
+        <section className="relative bg-lime-50 px-6 py-10 text-center md:px-12 lg:px-24 lg:py-16">
           <div className="absolute -left-10 top-0 h-40 w-40 rounded-full bg-amber-200/40 blur-3xl animate-pulse" />
           <div className="absolute -right-10 bottom-0 h-40 w-40 rounded-full bg-sky-200/40 blur-3xl" />
           
           <div className="relative mx-auto max-w-3xl">
-            <span className="mb-4 inline-block rounded-full bg-white px-5 py-1.5 text-xs font-black uppercase tracking-widest text-lime-700 shadow-sm border border-lime-100">
+            <span className="mb-4 inline-block rounded-full bg-white px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-lime-700 shadow-sm border border-lime-100 md:px-5 md:text-xs">
               Profil Sekolah
             </span>
-            <h1 className="mb-4 text-4xl font-black tracking-tight text-zinc-900 md:text-6xl">
+            <h1 className="mb-4 text-3xl font-black tracking-tight text-zinc-900 md:text-6xl">
               TK PGRI <span className="text-lime-600">Puspa Mekar</span>
             </h1>
-            <p className="text-lg font-bold text-zinc-600 md:text-xl">
+            <p className="text-base font-bold text-zinc-600 md:text-xl">
               Membentuk Masa Depan Ceria Sejak 2010.
             </p>
           </div>
         </section>
 
         {/* Sambutan Kepala Sekolah */}
-        <section className="px-6 py-16 md:px-12 lg:px-24 bg-white">
+        <section className="px-6 py-12 md:px-12 lg:px-24 bg-white">
           <div className="mx-auto max-w-5xl">
-            <div className="flex flex-col md:flex-row items-center gap-12 border-y border-zinc-100 py-16">
+            <div className="flex flex-col md:flex-row items-center gap-10 border-y border-zinc-100 py-12 md:gap-12 md:py-16">
               <div className="shrink-0">
-                <div className="relative h-64 w-56 rounded-3xl overflow-hidden shadow-xl border-4 border-white transition-transform hover:scale-105">
+                <div className="relative h-64 w-56 rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white transition-transform hover:scale-105">
                   <Image src="/kepalask.jpeg" alt="Ibu Nani Trisnawati, S.Pd." fill className="object-cover" sizes="224px" />
                 </div>
               </div>
 
-              <div className="flex-1">
+              <div className="flex-1 text-center md:text-left">
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-lime-600 mb-4 block">Kata Pengantar</span>
-                <h2 className="text-3xl font-black text-zinc-900 mb-6 leading-tight">Komitmen Kami Terhadap Pendidikan Anak Usia Dini</h2>
-                <div className="space-y-6 text-zinc-600 font-bold leading-relaxed text-base">
+                <h2 className="text-2xl font-black text-zinc-900 mb-6 leading-tight md:text-3xl">Komitmen Kami Terhadap Pendidikan Anak Usia Dini</h2>
+                <div className="space-y-6 text-zinc-600 font-bold leading-relaxed text-sm md:text-base">
                   <p>
                     Selamat datang di **TK PGRI Puspa Mekar**. Kami memahami bahwa pendidikan anak usia dini merupakan fase krusial dalam membentuk fondasi intelektual dan emosional setiap individu. 
                   </p>
@@ -95,7 +95,7 @@ export default function ProfilPage() {
                 </div>
                 <div className="mt-8">
                   <p className="text-lg font-black text-zinc-900">Ibu Nani Trisnawati, S.Pd.</p>
-                  <p className="text-xs font-black uppercase tracking-widest text-zinc-400">Kepala Sekolah</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Kepala Sekolah</p>
                 </div>
               </div>
             </div>

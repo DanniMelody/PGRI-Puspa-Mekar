@@ -136,84 +136,84 @@ export default function PPDBPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-zinc-50 font-sans text-zinc-900">
-      <main className="flex-1 px-6 py-12 md:px-12 lg:px-24">
+      <main className="flex-1 px-6 py-10 md:px-12 lg:px-24">
         <div className="mx-auto max-w-5xl">
           
           {/* Header Section */}
-          <div className="mb-16 text-center">
-            <h1 className="mb-4 text-4xl font-black tracking-tight text-zinc-900 md:text-6xl">
+          <div className="mb-12 text-center md:mb-16">
+            <h1 className="mb-4 text-3xl font-black tracking-tight text-zinc-900 md:text-6xl">
               Pendaftaran Siswa Baru
             </h1>
-            <p className="mx-auto max-w-2xl text-xl font-bold text-zinc-500 leading-relaxed">
+            <p className="mx-auto max-w-2xl text-lg font-bold text-zinc-500 leading-relaxed md:text-xl">
               Selamat datang di gerbang masa depan si kecil. Mari bergabung menjadi bagian dari keluarga besar <span className="text-lime-600">PGRI Puspa Mekar</span>.
             </p>
             
             {/* Download Brochure CTA */}
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-10">
               <button 
                 onClick={() => {
                   if (confirm("Apakah Anda ingin mengunduh brosur TK PGRI Puspa Mekar?")) {
                     window.location.href = "/brosur-tk-puspa-mekar.pdf";
                   }
                 }}
-                className="group flex items-center gap-3 rounded-2xl bg-white px-8 py-4 font-black text-zinc-900 shadow-xl shadow-zinc-200/50 transition-[transform,background-color] hover:-translate-y-1 hover:bg-zinc-50 active:scale-95 border-2 border-zinc-100"
+                className="group flex w-full items-center gap-3 rounded-2xl bg-white px-6 py-4 font-black text-zinc-900 shadow-xl shadow-zinc-200/50 transition-[transform,background-color] hover:-translate-y-1 hover:bg-zinc-50 active:scale-95 border-2 border-zinc-100 sm:w-auto md:px-8"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-lime-100 text-2xl transition-transform group-hover:rotate-12">
-                  <Icons.FileText className="h-6 w-6 text-lime-600" />
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-lime-100 transition-transform group-hover:rotate-12">
+                  <Icons.FileText className="h-5 w-5 text-lime-600 md:h-6 md:w-6" />
                 </span>
-                Download Brosur & Biaya (PDF)
+                <span className="text-sm md:text-base">Download Brosur (PDF)</span>
               </button>
-              <p className="text-sm font-bold text-zinc-400">Tahun Pelajaran 2026/2027</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Tahun Pelajaran 2026/2027</p>
             </div>
           </div>
 
           {/* Alur Pendaftaran Section */}
-          <section className="mb-24">
-            <div className="mb-12 text-center">
-              <h2 className="text-3xl font-black text-zinc-900 tracking-tight">Alur Pendaftaran</h2>
-              <div className="mt-2 mx-auto h-1.5 w-20 rounded-full bg-lime-500" />
+          <section className="mb-16 md:mb-24">
+            <div className="mb-10 text-center">
+              <h2 className="text-2xl font-black text-zinc-900 tracking-tight md:text-3xl">Alur Pendaftaran</h2>
+              <div className="mt-2 mx-auto h-1.5 w-16 rounded-full bg-lime-500 md:w-20" />
             </div>
             
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 md:gap-6">
               {REGISTRATION_STEPS.map((item, i) => (
-                <div key={i} className="group relative rounded-[2.5rem] bg-white p-8 shadow-lg shadow-zinc-100 border border-zinc-100 transition-all hover:shadow-2xl hover:-translate-y-1">
-                  <div className="absolute -top-4 -left-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-lime-500 font-black text-white shadow-lg shadow-lime-200">
+                <div key={i} className="group relative rounded-[2rem] bg-white p-6 shadow-lg shadow-zinc-100 border border-zinc-100 transition-all hover:shadow-2xl md:rounded-[2.5rem] md:p-8">
+                  <div className="absolute -top-3 -left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-500 text-sm font-black text-white shadow-lg shadow-lime-200 md:h-12 md:w-12 md:rounded-2xl md:text-base">
                     {item.step}
                   </div>
-                  <div className="mb-6 mt-2">{item.icon}</div>
-                  <h3 className="mb-3 text-xl font-black leading-tight text-zinc-900">{item.title}</h3>
-                  <p className="text-sm font-medium leading-relaxed text-zinc-500">{item.desc}</p>
+                  <div className="mb-4 mt-2 md:mb-6">{item.icon}</div>
+                  <h3 className="mb-2 text-lg font-black leading-tight text-zinc-900 md:mb-3 md:text-xl">{item.title}</h3>
+                  <p className="text-xs font-medium leading-relaxed text-zinc-500 md:text-sm">{item.desc}</p>
                 </div>
               ))}
             </div>
           </section>
 
           {/* Investasi Pendidikan (Fees) */}
-          <section className="mb-24">
-            <div className="rounded-[3.5rem] bg-white p-10 md:p-16 shadow-xl shadow-zinc-200/50 border border-zinc-100">
-              <div className="mb-12 text-center">
-                <h2 className="text-3xl font-black text-zinc-900 tracking-tight">Investasi Pendidikan</h2>
-                <p className="mt-2 font-bold text-zinc-500">Estimasi biaya pendidikan untuk Tahun Pelajaran 2026/2027.</p>
+          <section className="mb-16 md:mb-24">
+            <div className="rounded-[2.5rem] bg-white p-8 shadow-xl shadow-zinc-200/50 border border-zinc-100 md:rounded-[3.5rem] md:p-16">
+              <div className="mb-10 text-center">
+                <h2 className="text-2xl font-black text-zinc-900 tracking-tight md:text-3xl">Investasi Pendidikan</h2>
+                <p className="mt-2 text-sm font-bold text-zinc-500 md:text-base">Estimasi biaya pendidikan untuk Tahun Pelajaran 2026/2027.</p>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2 md:gap-6">
                 {FEES.map((fee, i) => (
-                  <div key={i} className="flex flex-col gap-4 rounded-[2rem] bg-zinc-50 p-8 border border-zinc-100 transition-colors hover:bg-lime-50/50">
+                  <div key={i} className="flex flex-col gap-3 rounded-[1.5rem] bg-zinc-50 p-6 border border-zinc-100 transition-colors hover:bg-lime-50/50 md:rounded-[2rem] md:p-8 md:gap-4">
                     <div className="flex items-center justify-between">
-                      <h4 className="text-lg font-black text-zinc-900">{fee.category}</h4>
-                      <span className="rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-widest text-zinc-400 border border-zinc-100">{fee.period}</span>
+                      <h4 className="text-base font-black text-zinc-900 md:text-lg">{fee.category}</h4>
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[8px] font-black uppercase tracking-widest text-zinc-400 border border-zinc-100 md:px-3 md:text-[10px]">{fee.period}</span>
                     </div>
-                    <div className="text-3xl font-black text-lime-600">{fee.amount}</div>
-                    <p className="text-sm font-medium text-zinc-500 leading-relaxed">{fee.desc}</p>
+                    <div className="text-2xl font-black text-lime-600 md:text-3xl">{fee.amount}</div>
+                    <p className="text-xs font-medium text-zinc-500 leading-relaxed md:text-sm">{fee.desc}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-10 rounded-2xl bg-amber-50 p-6 flex flex-col md:flex-row items-center gap-6">
-                <div className="h-12 w-12 flex items-center justify-center rounded-full bg-amber-100 text-2xl shrink-0">
-                  <Icons.Lightbulb className="h-6 w-6 text-amber-600" />
+              <div className="mt-8 rounded-2xl bg-amber-50 p-5 flex flex-col md:flex-row items-center gap-5 md:mt-10 md:p-6 md:gap-6">
+                <div className="h-10 w-10 flex items-center justify-center rounded-full bg-amber-100 text-xl shrink-0 md:h-12 md:w-12 md:text-2xl">
+                  <Icons.Lightbulb className="h-5 w-5 text-amber-600 md:h-6 md:w-6" />
                 </div>
-                <p className="text-sm font-bold text-amber-800 leading-relaxed">
+                <p className="text-xs font-bold text-amber-800 leading-relaxed text-center md:text-left md:text-sm">
                   Kami menyediakan program potongan biaya khusus bagi pendaftar gelombang pertama (Early Bird) sebelum bulan Mei 2026. Hubungi admin untuk detail selengkapnya.
                 </p>
               </div>
@@ -222,10 +222,9 @@ export default function PPDBPage() {
 
           {/* Registration Form Card */}
           <section id="daftar" className="relative">
-            <div className="absolute -top-20 -left-20 h-64 w-64 rounded-full bg-lime-200/30 blur-3xl" />
-            <div className="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-amber-200/30 blur-3xl" />
+            <div className="absolute -top-10 -left-10 h-40 w-40 rounded-full bg-lime-200/20 blur-3xl md:-top-20 md:-left-20 md:h-64 md:w-64" />
             
-            <div className="relative rounded-[3.5rem] bg-white p-8 shadow-2xl shadow-zinc-200/50 md:p-16 border border-zinc-100 overflow-hidden min-h-[400px] flex flex-col justify-center">
+            <div className="relative rounded-[2.5rem] bg-white p-6 shadow-2xl shadow-zinc-200/50 md:rounded-[3.5rem] md:p-16 border border-zinc-100 overflow-hidden min-h-[400px] flex flex-col justify-center">
               <AnimatePresence mode="wait">
                 {ppdbOpen === null ? (
                   <motion.div key="loading" className="flex flex-col items-center justify-center py-20">

@@ -97,21 +97,17 @@ export default function Navbar() {
             {(mounted && !ppdbOpen) ? "PPDB Ditutup" : "PPDB Online"}
           </Link>
 
-          {/* Mobile Menu Button */}
+        {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 text-zinc-600 transition-[background-color,color] hover:bg-zinc-200 md:hidden"
+            className="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-900 transition-all hover:bg-zinc-200 active:scale-90 md:hidden"
             aria-label={isOpen ? "Tutup Menu" : "Buka Menu"}
           >
-            {isOpen ? (
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            )}
+            <div className="relative h-6 w-6">
+              <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${isOpen ? "top-3 rotate-45" : "top-1"}`} />
+              <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 top-3 ${isOpen ? "opacity-0" : "opacity-100"}`} />
+              <span className={`absolute block h-0.5 w-6 bg-current transition-all duration-300 ${isOpen ? "top-3 -rotate-45" : "top-5"}`} />
+            </div>
           </button>
         </div>
       </div>
@@ -119,46 +115,62 @@ export default function Navbar() {
       {/* Mobile Navigation Dropdown */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute left-0 right-0 top-full overflow-hidden border-b border-zinc-100 bg-white/95 p-6 shadow-2xl backdrop-blur-xl md:hidden"
-          >
-            <nav className="flex flex-col gap-2">
-              {navLinks.map((link) => {
-                const isActive = pathname === link.href;
-                return (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 top-[89px] z-40 bg-zinc-900/20 backdrop-blur-sm md:hidden"
+            />
+            
+            {/* Menu Content */}
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+              className="absolute left-6 right-6 top-[calc(100%+12px)] z-50 overflow-hidden rounded-[2.5rem] border border-zinc-100 bg-white p-4 shadow-[0_20px_50px_rgba(0,0,0,0.1)] backdrop-blur-2xl md:hidden"
+            >
+              <nav className="flex flex-col gap-1">
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex h-14 items-center justify-between rounded-2xl px-6 text-base font-black transition-all active:scale-[0.98] ${
+                        isActive 
+                          ? "bg-lime-50 text-lime-700 shadow-sm shadow-lime-100/50" 
+                          : "text-zinc-600 hover:bg-zinc-50"
+                      }`}
+                    >
+                      {link.name}
+                      {isActive && <div className="h-2 w-2 rounded-full bg-lime-500" />}
+                    </Link>
+                  );
+                })}
+                <div className="mt-4 border-t border-zinc-100 pt-4">
                   <Link
-                    key={link.name}
-                    href={link.href}
+                    href={(!mounted || ppdbOpen) ? "/ppdb" : "/kontak"}
                     onClick={() => setIsOpen(false)}
-                    className={`flex h-14 items-center rounded-2xl px-6 text-lg font-black transition-[background-color,color] focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:outline-none ${
-                      isActive 
-                        ? "bg-lime-50 text-lime-700 shadow-sm" 
-                        : "text-zinc-600 hover:bg-zinc-50"
+                    className={`flex h-16 items-center justify-center gap-3 rounded-[1.75rem] text-lg font-black shadow-lg transition-all active:scale-95 ${
+                      (mounted && !ppdbOpen)
+                        ? "bg-zinc-100 text-zinc-400 border border-zinc-200"
+                        : pathname === "/ppdb"
+                          ? "bg-zinc-900 text-white"
+                          : "bg-lime-600 text-white shadow-lime-100/50 hover:bg-lime-700"
                     }`}
                   >
-                    {link.name}
+                    <Icons.Logo className="h-6 w-6" />
+                    {(mounted && !ppdbOpen) ? "PPDB Ditutup" : "Daftar PPDB"}
                   </Link>
-                );
-              })}
-              <Link
-                href={(!mounted || ppdbOpen) ? "/ppdb" : "/kontak"}
-                onClick={() => setIsOpen(false)}
-                className={`mt-6 flex h-16 items-center justify-center rounded-[2rem] text-xl font-black shadow-xl transition-all active:scale-95 focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:outline-none ${
-                  (mounted && !ppdbOpen)
-                    ? "bg-zinc-100 text-zinc-400 border border-zinc-200"
-                    : pathname === "/ppdb"
-                      ? "bg-zinc-900 text-white"
-                      : "bg-lime-600 text-white shadow-lime-100"
-                }`}
-              >
-                {(mounted && !ppdbOpen) ? "PPDB Ditutup" : "PPDB Online"}
-              </Link>
-            </nav>
-          </motion.div>
+                </div>
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
