@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Icons } from "../components/Icons";
 import { supabase } from "@/lib/supabase";
@@ -11,27 +12,25 @@ export default function Home() {
   const [ppdbOpen, setPpdbOpen] = useState<boolean>(true);
   const [mounted, setMounted] = useState(false);
   const [latestNews, setLatestNews] = useState<News[]>([]);
+  const [calendarEvents, setCalendarEvents] = useState<any[]>([]);
 
   useEffect(() => {
     setMounted(true);
     const fetchData = async () => {
       try {
-        // Fetch PPDB Status
-        const { data: settingData } = await supabase.from("settings").select("*").eq("key", "ppdb_open").maybeSingle();
-        if (settingData) {
-          setPpdbOpen(settingData.value === "true");
-        }
+        const [
+          { data: settingData },
+          { data: newsData },
+          { data: eventData }
+        ] = await Promise.all([
+          supabase.from("settings").select("*").eq("key", "ppdb_open").maybeSingle(),
+          supabase.from("news").select("*").order("created_at", { ascending: false }).limit(3),
+          supabase.from("calendar_events").select("*").eq("is_published", true).order("date", { ascending: true }).gte("date", new Date().toISOString().split('T')[0]).limit(3)
+        ]);
 
-        // Fetch 3 Latest News
-        const { data: newsData } = await supabase
-          .from("news")
-          .select("*")
-          .order("created_at", { ascending: false })
-          .limit(3);
-        
-        if (newsData) {
-          setLatestNews(newsData);
-        }
+        if (settingData) setPpdbOpen(settingData.value === "true");
+        if (newsData) setLatestNews(newsData);
+        if (eventData) setCalendarEvents(eventData);
       } catch (error) {
         console.error("Error fetching home data:", error);
       }
@@ -39,16 +38,16 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const TESTIMONIALS = [
+  const TESTIMONIALS = useMemo(() => [
     {
       name: "Bunda Laila",
-      role: "Orang Tua Siswa TK-A",
+      role: "Orang Tua Siswa Kelompok A",
       quote: "PGRI Puspa Mekar benar-benar tempat yang nyaman. Anak saya jadi lebih mandiri and selalu antusias berangkat sekolah setiap pagi!",
       avatar: <Icons.User className="h-6 w-6 text-lime-600" />
     },
     {
       name: "Ayah Budi",
-      role: "Orang Tua Siswa TK-B",
+      role: "Orang Tua Siswa Kelompok B",
       quote: "Kurikulumnya seimbang antara bermain and belajar. Guru-gurunya sabar and sangat komunikatif dengan orang tua.",
       avatar: <Icons.User className="h-6 w-6 text-sky-600" />
     },
@@ -58,13 +57,7 @@ export default function Home() {
       quote: "Persiapan ke jenjang SD sangat matang. Anak saya tidak kesulitan saat masuk sekolah dasar berkat fondasi di sini.",
       avatar: <Icons.User className="h-6 w-6 text-amber-600" />
     }
-  ];
-
-  const CALENDAR = [
-    { date: "15 MAR", event: "Pendaftaran Gelombang 1" },
-    { date: "20 APR", event: "Open House & Trial Class" },
-    { date: "12 MEI", event: "Pentas Seni Kreativitas" }
-  ];
+  ], []);
 
   return (
     <div className="flex min-h-screen flex-col bg-white font-sans text-zinc-900 overflow-x-hidden">
@@ -123,10 +116,13 @@ export default function Home() {
             <div className="relative mx-auto aspect-square w-full max-w-[500px]">
               <div className="absolute -inset-4 rounded-[3rem] bg-lime-400/20 blur-2xl" />
               <div className="relative h-full w-full overflow-hidden rounded-[3.5rem] bg-zinc-100 shadow-2xl ring-8 ring-white">
-                <img 
-                  src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop" 
-                  alt="Kegiatan Belajar" 
-                  className="h-full w-full object-cover"
+                <Image 
+                  src="/fotopgri.jpeg" 
+                  alt="Gedung TK PGRI Puspa Mekar" 
+                  fill
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  className="object-cover"
+                  priority
                 />
               </div>
             </div>
@@ -149,7 +145,7 @@ export default function Home() {
 
             <div className="grid gap-8 md:grid-cols-3">
               {latestNews.length > 0 ? (
-                latestNews.map((item, i) => (
+                latestNews.map((item) => (
                   <div key={item.id} className="group flex flex-col rounded-[2.5rem] bg-white p-8 transition-all hover:shadow-xl shadow-sm border border-zinc-100">
                     <div className="mb-6 flex items-center justify-between">
                       <span className={`rounded-xl px-4 py-1.5 text-[10px] font-black uppercase tracking-widest ${
@@ -195,15 +191,32 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="space-y-6">
-                  {CALENDAR.map((item, i) => (
-                    <div key={i} className="flex items-center gap-6">
-                      <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-white text-zinc-900 shadow-lg">
-                        <span className="text-xl font-black leading-none">{item.date.split(' ')[0]}</span>
-                        <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.date.split(' ')[1]}</span>
-                      </div>
-                      <p className="text-lg font-bold leading-tight text-white/90">{item.event}</p>
+                  {calendarEvents.length > 0 ? (
+                    calendarEvents.map((item, i) => {
+                      const eventDate = new Date(item.date);
+                      const day = eventDate.getDate();
+                      const month = eventDate.toLocaleDateString('id-ID', { month: 'short' }).toUpperCase();
+                      
+                      return (
+                        <div key={i} className="flex items-center gap-6">
+                          <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-white text-zinc-900 shadow-lg">
+                            <span className="text-xl font-black leading-none">{day}</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em]">{month}</span>
+                          </div>
+                          <div className="flex flex-col">
+                            <p className="text-lg font-bold leading-tight text-white/90">{item.title}</p>
+                            <span className={`mt-1 text-[10px] font-black uppercase tracking-widest ${item.type === 'Hari Libur' ? 'text-rose-400' : 'text-lime-400'}`}>
+                              {item.type}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="py-10 text-center">
+                      <p className="text-white/40 font-bold italic">Belum ada agenda terdekat.</p>
                     </div>
-                  ))}
+                  )}
                 </div>
                 <Link href="/program" className="mt-10 inline-flex h-12 items-center gap-3 rounded-xl border border-white/20 px-6 text-sm font-black uppercase tracking-widest text-lime-400 transition-all hover:bg-white/10">
                   Lihat Jadwal Lengkap

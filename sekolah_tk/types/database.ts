@@ -49,3 +49,12 @@ export interface Setting {
   description: string | null;
   updated_at: string;
 }
+
+export interface CalendarEvent {
+  id: string;
+  created_at: string;
+  date: string;
+  title: string;
+  type: "Kegiatan" | "Hari Libur";
+  is_published: boolean;
+}

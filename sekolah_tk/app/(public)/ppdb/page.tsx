@@ -20,7 +20,7 @@ export default function PPDBPage() {
     birth_place: "",
     birth_date: "",
     gender: "",
-    program: "TK-A (Usia 4-5 Tahun)",
+    program: "Kelompok A (Usia 4-5 Tahun)",
     parent_name: "",
     whatsapp: "",
     address: ""
@@ -359,8 +359,8 @@ export default function PPDBPage() {
                               onChange={handleInputChange}
                               className="h-14 rounded-2xl border-2 border-zinc-100 bg-zinc-50/50 px-5 text-base font-bold focus:border-lime-500 focus:bg-white focus:outline-none transition-all appearance-none"
                             >
-                              <option>TK-A (Usia 4-5 Tahun)</option>
-                              <option>TK-B (Usia 5-6 Tahun)</option>
+                              <option>Kelompok A (Usia 4-5 Tahun)</option>
+                              <option>Kelompok B (Usia 5-6 Tahun)</option>
                             </select>
                           </div>
                         </div>
@@ -451,7 +451,7 @@ export default function PPDBPage() {
                               value={formData.whatsapp}
                               onChange={handleInputChange}
                               type="tel" 
-                              placeholder="Contoh: 081234567890" 
+                              placeholder="Contoh: 085199297045" 
                               className="h-14 rounded-2xl border-2 border-zinc-100 bg-zinc-50/50 px-5 text-base font-bold focus:border-amber-500 focus:bg-white focus:outline-none transition-all" 
                             />
                           </div>
@@ -515,7 +515,7 @@ export default function PPDBPage() {
                             birth_place: "",
                             birth_date: "",
                             gender: "",
-                            program: "TK-A (Usia 4-5 Tahun)",
+                            program: "Kelompok A (Usia 4-5 Tahun)",
                             parent_name: "",
                             whatsapp: "",
                             address: ""

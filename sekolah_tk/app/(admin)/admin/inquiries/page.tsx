@@ -162,7 +162,7 @@ export default function AdminInquiries() {
                     onClick={() => handleDelete(inq.id)}
                     className="flex items-center gap-2 text-xs font-black text-rose-400 transition-colors hover:text-rose-600"
                   >
-                    <Icons.List className="h-4 w-4 rotate-45" />
+                    <Icons.Trash className="h-4 w-4" />
                     Hapus Pesan
                   </button>
                   

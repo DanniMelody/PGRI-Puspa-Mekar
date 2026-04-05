@@ -12,7 +12,7 @@ export default function WhatsAppFloating() {
       className="fixed bottom-8 right-8 z-[100]"
     >
       <a 
-        href="https://wa.me/6281234567890" 
+        href="https://wa.me/6285199297045" 
         target="_blank" 
         rel="noopener noreferrer"
         className="group relative flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500 text-white shadow-2xl shadow-emerald-200 transition-all hover:bg-emerald-600 hover:shadow-emerald-300"

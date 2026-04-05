@@ -179,7 +179,7 @@ export default function AdminNews() {
             onClick={() => setIsModalOpen(true)}
             className="flex items-center justify-center gap-2 rounded-2xl bg-zinc-900 px-6 py-3.5 text-sm font-black text-white shadow-xl transition-all hover:bg-zinc-800 active:scale-95 w-full md:w-auto"
           >
-            <Icons.Sparkles className="h-4 w-4" />
+            <Icons.PlusCircle className="h-4 w-4" />
             Tulis Berita
           </button>
         </div>

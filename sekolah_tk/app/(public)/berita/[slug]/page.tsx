@@ -109,7 +109,7 @@ export default function NewsDetailPage() {
               <span className="font-black text-zinc-400 uppercase tracking-widest text-xs">Informasi Lebih Lanjut:</span>
             </div>
             <Link 
-              href={`https://wa.me/081234567890?text=Halo%20Admin%20TK%20Puspa%20Mekar,%20saya%20ingin%20bertanya%20mengenai%20berita:%20${news.title}`} 
+              href={`https://wa.me/6285199297045?text=Halo%20Admin%20TK%20Puspa%20Mekar,%20saya%20ingin%20bertanya%20mengenai%20berita:%20${news.title}`} 
               target="_blank"
               className="rounded-2xl bg-lime-600 px-10 py-4 font-black text-white shadow-xl shadow-lime-100 transition-all hover:bg-lime-700 active:scale-95"
             >

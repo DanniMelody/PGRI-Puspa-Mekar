@@ -7,22 +7,22 @@ import { supabase } from "@/lib/supabase";
 
 const PROGRAMS = [
   {
-    id: "tk-a",
-    title: "TK-A (Usia 4-5 Tahun)",
+    id: "kelompok-a",
+    title: "Kelompok A (Usia 4-5 Tahun)",
     subtitle: "Fase Fondasi: Eksplorasi & Pembiasaan Karakter",
     color: "bg-gradient-to-br from-lime-50 via-white to-lime-50 border-lime-200 text-lime-700",
     accent: "bg-lime-500",
     icon: <Icons.Leaf className="h-12 w-12" />,
     curriculum: [
-      { name: "Aku Sayang Al-Qur'an", desc: "Mengenal huruf hijaiyah dan pembiasaan hafalan surat pendek (Taqwa)." },
+      { name: "Aku Sayang Al-Qur'an", desc: "Mengenal huruf hijaiyah and pembiasaan hafalan surat pendek (Taqwa)." },
       { name: "Gerak & Irama Nyunda", desc: "Eksplorasi motorik melalui lagu anak dan tarian daerah sederhana (Nyunda)." },
       { name: "Adab & Kemandirian", desc: "Membangun karakter jujur, sopan santun, dan kemandirian dasar (Karakter)." }
     ],
     skills: ["Hafalan Doa Harian", "Motorik Kasar & Halus", "Sosialisasi Dasar"]
   },
   {
-    id: "tk-b",
-    title: "TK-B (Usia 5-6 Tahun)",
+    id: "kelompok-b",
+    title: "Kelompok B (Usia 5-6 Tahun)",
     subtitle: "Fase Kesiapan: Literasi, Religi & Budaya",
     color: "bg-gradient-to-br from-sky-50 via-white to-sky-50 border-sky-200 text-sky-700",
     accent: "bg-sky-500",
@@ -82,12 +82,12 @@ export default function ProgramPage() {
           <div className="mx-auto max-w-6xl">
             <div className="mb-20 grid gap-8 lg:grid-cols-3">
               {[
-                { title: "Nilai Agama & Moral", icon: <Icons.Shield className="h-8 w-8" />, color: "bg-amber-100 text-amber-600", desc: "Pembiasaan doa, etika, dan karakter mulia sehari-hari." },
-                { title: "Jati Diri (Sosial)", icon: <Icons.Smile className="h-8 w-8" />, color: "bg-rose-100 text-rose-600", desc: "Membangun percaya diri dan kecerdasan emosional." },
-                { title: "STEAM & Literasi", icon: <Icons.Book className="h-8 w-8" />, color: "bg-indigo-100 text-indigo-600", desc: "Eksplorasi sains, teknologi, seni, dan bahasa dasar." }
+                { title: "Nilai Agama & Moral", icon: <Icons.Shield className="h-full w-full" />, color: "bg-amber-100 text-amber-600", desc: "Pembiasaan doa, etika, dan karakter mulia sehari-hari." },
+                { title: "Jati Diri (Sosial)", icon: <Icons.Smile className="h-full w-full" />, color: "bg-rose-100 text-rose-600", desc: "Membangun percaya diri dan kecerdasan emosional." },
+                { title: "STEAM & Literasi", icon: <Icons.Book className="h-full w-full" />, color: "bg-indigo-100 text-indigo-600", desc: "Eksplorasi sains, teknologi, seni, dan bahasa dasar." }
               ].map((item, i) => (
                 <div key={i} className="rounded-3xl bg-zinc-50 p-8 text-center transition-transform hover:-translate-y-1">
-                  <div className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl ${item.color}`}>
+                  <div className={`mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl p-4 ${item.color}`}>
                     {item.icon}
                   </div>
                   <h3 className="mb-3 text-xl font-bold text-zinc-900">{item.title}</h3>
@@ -101,8 +101,8 @@ export default function ProgramPage() {
               {PROGRAMS.map((program) => (
                 <div key={program.id} className={`rounded-[3.5rem] border-2 p-10 md:p-14 ${program.color} transition-all hover:shadow-2xl`}>
                   <div className="mb-10 flex items-center justify-between">
-                    <div className={`flex h-20 w-20 items-center justify-center rounded-[2rem] text-white shadow-xl ${program.accent}`}>
-                      {program.icon}
+                    <div className={`flex h-20 w-20 items-center justify-center rounded-[2rem] text-white shadow-xl p-4 ${program.accent}`}>
+                      {React.cloneElement(program.icon as React.ReactElement, { className: "h-full w-full" })}
                     </div>
                     <span className="rounded-full bg-white/50 px-4 py-1 text-xs font-black uppercase tracking-widest text-zinc-500">Program Inti</span>
                   </div>
@@ -149,14 +149,14 @@ export default function ProgramPage() {
             <h2 className="mb-16 text-4xl font-black tracking-tight text-zinc-900">Program Ekstrakurikuler</h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { name: "Seni Menari", color: "border-rose-100 hover:bg-rose-50 hover:border-rose-200", icon: <Icons.Music className="text-rose-500" /> },
-                { name: "Menyanyi & Olah Vokal", color: "border-sky-100 hover:bg-sky-50 hover:border-sky-200", icon: <Icons.Mic className="text-sky-500" /> },
-                { name: "Hafalan Surat Pendek", color: "border-lime-100 hover:bg-lime-50 hover:border-lime-200", icon: <Icons.Book className="text-lime-500" /> },
-                { name: "Melukis & Mewarnai", color: "border-amber-100 hover:bg-amber-50 hover:border-amber-200", icon: <Icons.Palette className="text-amber-500" /> }
+                { name: "Seni Menari", color: "border-rose-100 hover:bg-rose-50 hover:border-rose-200", icon: <Icons.Music className="h-full w-full text-rose-500" /> },
+                { name: "Menyanyi & Olah Vokal", color: "border-sky-100 hover:bg-sky-50 hover:border-sky-200", icon: <Icons.Mic className="h-full w-full text-sky-500" /> },
+                { name: "Hafalan Surat Pendek", color: "border-lime-100 hover:bg-lime-50 hover:border-lime-200", icon: <Icons.Book className="h-full w-full text-lime-500" /> },
+                { name: "Melukis & Mewarnai", color: "border-amber-100 hover:bg-amber-50 hover:border-amber-200", icon: <Icons.Palette className="h-full w-full text-amber-500" /> }
               ].map((item, i) => (
                 <div key={i} className={`flex flex-col items-center rounded-3xl border-2 bg-white p-8 transition-all ${item.color}`}>
-                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-50">
-                    <div className="h-8 w-8">{item.icon}</div>
+                  <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-zinc-50 p-4">
+                    {item.icon}
                   </div>
                   <h4 className="text-lg font-black text-zinc-900">{item.name}</h4>
                 </div>

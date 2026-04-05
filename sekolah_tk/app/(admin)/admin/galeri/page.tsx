@@ -23,6 +23,22 @@ export default function AdminGallery() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
+  const getYoutubeThumbnail = (url: string) => {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11)
+      ? `https://img.youtube.com/vi/${match[2]}/hqdefault.jpg`
+      : null;
+  };
+
+  useEffect(() => {
+    if (formData.is_video && formData.video_url && !selectedFile && !formData.image_url) {
+      const thumb = getYoutubeThumbnail(formData.video_url);
+      if (thumb) setPreviewUrl(thumb);
+    }
+  }, [formData.is_video, formData.video_url, selectedFile, formData.image_url]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -204,51 +220,62 @@ export default function AdminGallery() {
               <p className="font-bold text-zinc-400">Tidak ada konten ditemukan untuk kategori ini.</p>
             </motion.div>
           ) : (
-            filteredPhotos.map((item) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                key={item.id} 
-                className="group relative aspect-square overflow-hidden rounded-[2.5rem] bg-white shadow-lg shadow-zinc-100/50 border border-zinc-50 transition-all hover:shadow-2xl"
-              >
-                <img 
-                  src={item.image_url} 
-                  alt={item.title} 
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                />
-                
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 p-6 flex flex-col justify-end">
-                  <span className="mb-2 w-fit rounded-lg bg-lime-500 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">{item.category}</span>
-                  <h3 className="font-black text-white text-lg leading-tight line-clamp-2">{item.title}</h3>
-                  <div className="mt-4 flex items-center justify-between gap-4">
-                    <div className="flex gap-2">
-                      <button 
-                        onClick={() => handleEdit(item)}
-                        className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white border border-white/20 transition-all hover:bg-white/40 hover:scale-110 active:scale-90"
-                        title="Edit"
-                      >
-                        <Icons.Pencil className="h-4 w-4" />
-                      </button>
-                      {item.is_video && (
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white border border-white/20">
-                          <Icons.Camera className="h-4 w-4" />
-                        </div>
-                      )}
+            filteredPhotos.map((item) => {
+              const displayImageUrl = item.image_url || (item.is_video ? getYoutubeThumbnail(item.video_url) : null);
+              
+              return (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  key={item.id} 
+                  className="group relative aspect-square overflow-hidden rounded-[2.5rem] bg-white shadow-lg shadow-zinc-100/50 border border-zinc-50 transition-all hover:shadow-2xl"
+                >
+                  {displayImageUrl ? (
+                    <img 
+                      src={displayImageUrl} 
+                      alt={item.title} 
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    />
+                  ) : (
+                    <div className="flex h-full w-full flex-col items-center justify-center bg-zinc-50 p-6 text-center">
+                      <Icons.Camera className="h-10 w-10 text-zinc-200 mb-2" />
+                      <p className="text-[10px] font-black uppercase text-zinc-400">No Image</p>
                     </div>
-                    <button 
-                      onClick={() => handleDelete(item.id)}
-                      className="ml-auto flex h-9 w-9 items-center justify-center rounded-xl bg-rose-500 text-white shadow-lg transition-transform hover:scale-110 active:scale-90"
-                      title="Hapus"
-                    >
-                      <Icons.Trash className="h-4 w-4" />
-                    </button>
+                  )}
+                  
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 p-6 flex flex-col justify-end">
+                    <span className="mb-2 w-fit rounded-lg bg-lime-500 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-white">{item.category}</span>
+                    <h3 className="font-black text-white text-lg leading-tight line-clamp-2">{item.title}</h3>
+                    <div className="mt-4 flex items-center justify-between gap-4">
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => handleEdit(item)}
+                          className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white border border-white/20 transition-all hover:bg-white/40 hover:scale-110 active:scale-90"
+                          title="Edit"
+                        >
+                          <Icons.Pencil className="h-4 w-4" />
+                        </button>
+                        {item.is_video && (
+                          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white border border-white/20">
+                            <Icons.Video className="h-4 w-4" />
+                          </div>
+                        )}
+                      </div>
+                      <button 
+                        onClick={() => handleDelete(item.id)}
+                        className="ml-auto flex h-9 w-9 items-center justify-center rounded-xl bg-rose-500 text-white shadow-lg transition-transform hover:scale-110 active:scale-90"
+                        title="Hapus"
+                      >
+                        <Icons.Trash className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))
+                </motion.div>
+              );
+            })
           )}
         </AnimatePresence>
       </div>
@@ -342,14 +369,13 @@ export default function AdminGallery() {
                     ) : (
                       <>
                         <div className="flex flex-col gap-2 animate-in fade-in duration-300">
-                          <label className="text-sm font-black text-zinc-700">URL Thumbnail (Gambar)</label>
+                          <label className="text-sm font-black text-zinc-700">URL Thumbnail (Opsional)</label>
                           <input
-                            required
                             type="url"
                             value={formData.image_url}
                             onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
                             className="h-14 rounded-2xl border-2 border-zinc-100 bg-zinc-50 px-5 text-base font-bold focus:border-lime-500 focus:bg-white focus:outline-none transition-all"
-                            placeholder="https://..."
+                            placeholder="Kosongkan jika ingin pakai otomatis"
                           />
                         </div>
                         <div className="flex flex-col gap-2 animate-in slide-in-from-top-2 duration-300">
@@ -379,7 +405,7 @@ export default function AdminGallery() {
                       {formData.is_video && (
                         <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                           <div className="h-12 w-12 rounded-full bg-white/90 flex items-center justify-center">
-                            <Icons.Camera className="h-6 w-6 text-sky-500" />
+                            <Icons.Video className="h-6 w-6 text-sky-500" />
                           </div>
                         </div>
                       )}

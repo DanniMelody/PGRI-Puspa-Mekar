@@ -37,21 +37,91 @@ export default function AdminRegistrations() {
       const searchStr = `${item.student_name} ${item.parent_name} ${item.nik}`.toLowerCase();
       const matchesSearch = searchStr.includes(searchTerm.toLowerCase());
       
-      const matchesFilter = filterProgram === "Semua" || item.program === filterProgram;
+      const matchesFilter = filterProgram === "Semua" || item.program.includes(filterProgram);
       
       return matchesSearch && matchesFilter;
     });
   }, [data, searchTerm, filterProgram]);
 
-  const programs = ["Semua", "TK A", "TK B", "Kelompok Bermain"];
+  const programs = ["Semua", "Kelompok A", "Kelompok B"];
+
+  const exportToCSV = () => {
+    if (filteredData.length === 0) return;
+
+    // Semicolon is better for Excel in regions like Indonesia
+    const delimiter = ";";
+    const headers = ["Nama Siswa", "NIK", "Program", "Nama Orang Tua", "WhatsApp", "Alamat", "Tanggal Daftar", "Link KK", "Link Akta"];
+    
+    const rows = filteredData.map(item => [
+      item.student_name,
+      `'${item.nik}`, // Single quote to force text in Excel
+      item.program,
+      item.parent_name,
+      `'${item.whatsapp}`, // Single quote to force text
+      `"${item.address.replace(/"/g, '""').replace(/\n/g, ' ')}"`, // Escape quotes and remove newlines
+      new Date(item.created_at).toLocaleDateString('id-ID'),
+      item.kk_url || "-",
+      item.birth_certificate_url || "-"
+    ]);
+
+    // Add UTF-8 BOM for Excel to recognize encoding
+    const BOM = "\uFEFF";
+    const csvContent = BOM + [
+      headers.join(delimiter),
+      ...rows.map(e => e.join(delimiter))
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Data_Pendaftar_TK_Puspa_Mekar_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const copyAllWhatsApp = () => {
+    const numbers = filteredData
+      .map(item => item.whatsapp.replace(/[^0-9]/g, ""))
+      .filter(n => n.length > 0)
+      .join(", ");
+    
+    if (numbers) {
+      navigator.clipboard.writeText(numbers);
+      alert("Semua nomor WhatsApp pendaftar (terfilter) telah disalin!");
+    }
+  };
 
   return (
     <div className="space-y-6 md:space-y-8">
       {/* Header & Controls */}
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-black text-zinc-900">Daftar Pendaftar PPDB</h1>
-          <p className="text-sm font-bold text-zinc-500">Total {filteredData.length} pendaftar ditemukan.</p>
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-black text-zinc-900">Daftar Pendaftar PPDB</h1>
+            <p className="text-sm font-bold text-zinc-500">Total {filteredData.length} pendaftar ditemukan.</p>
+          </div>
+          
+          <div className="flex flex-wrap gap-3">
+            <button 
+              onClick={copyAllWhatsApp}
+              disabled={filteredData.length === 0}
+              className="flex items-center gap-2 rounded-2xl bg-white border border-zinc-200 px-5 py-3 text-xs font-black text-zinc-600 shadow-sm transition-all hover:bg-zinc-50 active:scale-95 disabled:opacity-50"
+            >
+              <Icons.Phone className="h-4 w-4" />
+              Salin Semua WA
+            </button>
+            
+            <button 
+              onClick={exportToCSV}
+              disabled={filteredData.length === 0}
+              className="flex items-center gap-2 rounded-2xl bg-zinc-900 px-5 py-3 text-xs font-black text-white shadow-lg transition-all hover:bg-zinc-800 active:scale-95 disabled:opacity-50"
+            >
+              <Icons.FileSpreadsheet className="h-4 w-4" />
+              Export ke Excel (CSV)
+            </button>
+          </div>
         </div>
         
         <div className="grid gap-4 md:flex md:items-center md:justify-between">
@@ -114,7 +184,7 @@ export default function AdminRegistrations() {
                   <tr>
                     <td colSpan={6} className="px-6 py-24 text-center">
                       <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-zinc-50 text-zinc-300">
-                        <Icons.Search className="h-10 w-10" />
+                        <Icons.Users className="h-10 w-10" />
                       </div>
                       <p className="text-zinc-400 font-bold text-lg">Tidak ada pendaftar ditemukan.</p>
                       <button onClick={() => {setSearchTerm(""); setFilterProgram("Semua");}} className="mt-4 text-sm font-black text-lime-600 hover:underline">Reset Pencarian</button>
@@ -146,8 +216,8 @@ export default function AdminRegistrations() {
                       </td>
                       <td className="px-6 py-6">
                         <span className={`inline-block rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest ${
-                          reg.program.includes('TK A') ? 'bg-orange-50 text-orange-600' :
-                          reg.program.includes('TK B') ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600'
+                          reg.program.includes('Kelompok A') ? 'bg-orange-50 text-orange-600' :
+                          reg.program.includes('Kelompok B') ? 'bg-blue-50 text-blue-600' : 'bg-purple-50 text-purple-600'
                         }`}>
                           {reg.program}
                         </span>

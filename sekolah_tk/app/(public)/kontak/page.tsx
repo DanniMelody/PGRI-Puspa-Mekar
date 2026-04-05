@@ -87,7 +87,7 @@ export default function KontakPage() {
                     </div>
                     <div>
                       <h4 className="font-black text-zinc-900">Telepon / WhatsApp</h4>
-                      <p className="text-zinc-600 font-medium">0812-3456-7890</p>
+                      <p className="text-zinc-600 font-medium">0851-9929-7045</p>
                     </div>
                   </div>
 

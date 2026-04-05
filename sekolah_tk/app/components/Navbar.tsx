@@ -47,10 +47,13 @@ export default function Navbar() {
         {/* Logo Section */}
         <div className="flex-shrink-0">
           <Link href="/" className="flex items-center gap-3 group rounded-xl focus-visible:ring-2 focus-visible:ring-lime-500 focus-visible:outline-none">
-            <div className="h-16 w-auto transition-transform duration-300 group-hover:scale-105">
+            <div className="h-12 w-auto transition-transform duration-300 group-hover:scale-105 md:h-16">
               <Icons.Logo className="h-full w-auto object-contain" />
             </div>
-            <span className="text-xl font-black tracking-tight text-zinc-900 hidden sm:block">PGRI Puspa Mekar</span>
+            <div className="flex flex-col leading-tight">
+              <span className="text-sm font-black tracking-tight text-zinc-900 md:text-xl">TK PGRI</span>
+              <span className="text-xs font-bold text-lime-600 md:text-base md:font-black md:text-zinc-900">Puspa Mekar</span>
+            </div>
           </Link>
         </div>
 

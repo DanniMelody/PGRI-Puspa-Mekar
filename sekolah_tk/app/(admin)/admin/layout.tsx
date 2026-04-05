@@ -50,6 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const navItems = [
     { name: "Overview", href: "/admin", icon: <Icons.LayoutDashboard className="h-5 w-5" /> },
     { name: "Pendaftaran", href: "/admin/registrations", icon: <Icons.List className="h-5 w-5" /> },
+    { name: "Agenda Sekolah", href: "/admin/calendar", icon: <Icons.Calendar className="h-5 w-5" /> },
     { name: "Kelola Berita", href: "/admin/berita", icon: <Icons.FileText className="h-5 w-5" /> },
     { name: "Kelola Galeri", href: "/admin/galeri", icon: <Icons.Camera className="h-5 w-5" /> },
     { name: "Pesan Masuk", href: "/admin/inquiries", icon: <Icons.MessageSquare className="h-5 w-5" /> },
